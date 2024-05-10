@@ -1,3 +1,5 @@
+### For contact you can wirte me a mail - chananhelman@gmail.com
+
 # Graph and algorithms Project
 
 This project is a simple implementation of a Graph data structure in C++, and simple algorithms on graphs. It supports both directed and undirected graphs.
