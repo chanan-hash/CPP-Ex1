@@ -650,10 +650,10 @@ string Algorithms::negativeCycle(Graph &g)
  *  and try to color the vertices with two colors.
  *  If the graph is directed we'll make it undirected, because we want to know only if there is an edge between the vertices
  */
-string Algorithms::isBipartite(Graph &g) // we don't wan't the changes to afect outside the function, only inner changes for the checking
+string Algorithms::isBipartite(Graph &g) 
 {
 
-    /** if the graph is direc, we'll make it undirected, because we want to know only if there is an edge between the vertices
+    /** if the graph is directed, we'll make it undirected, because we want to know only if there is an edge between the vertices
      * So if we have edje at [i][j] and [j][i] but with different weights, we'll consider it as a single edge
      * else we'll copy the value at [i][j] to [j][i], or opposite if needed
      */
@@ -678,6 +678,7 @@ string Algorithms::isBipartite(Graph &g) // we don't wan't the changes to afect 
         }
     }
 
+    // trying to color the vertices with two colors, that no vertex and it's neighbor have the same color
     vector<int> color(n, -1);      // -1 means no color, 0 and 1 are the two colors
     vector<vector<int>> groups(2); // groups[0] and groups[1] are the two groups of vertices
 
@@ -685,28 +686,28 @@ string Algorithms::isBipartite(Graph &g) // we don't wan't the changes to afect 
     {
         if (color[start] == -1)
         {
-            queue<int> q;
+            queue<int> q; // for the BFS check
             q.push(start);
-            color[start] = 0;
+            color[start] = 0; // coloring the start vertex with the first color
             groups[0].push_back(start);
 
             while (!q.empty())
             {
-                int node = q.front();
-                q.pop();
+                int node = q.front(); // getting the vertex
+                q.pop(); // poping it out
 
-                for (size_t i = 0; i < n; ++i)
+                for (size_t i = 0; i < n; ++i) // checking all the neighbors
                 {
-                    if (adjMatrix[(size_t)node][i] != 0)
+                    if (adjMatrix[(size_t)node][i] != 0) // if there is an edge
                     {
-                        if (color[i] == -1)
+                        if (color[i] == -1) // checking if the vertex has't been colored
                         {
                             // If the node has not been colored, color it with the opposite color and add it to the corresponding group
                             color[i] = 1 - color[(size_t)node];
-                            groups[(size_t)color[i]].push_back(i);
+                            groups[(size_t)color[i]].push_back(i); // pushing the vertex to the group of its color
                             q.push(i);
                         }
-                        else if (color[i] == color[(size_t)node])
+                        else if (color[i] == color[(size_t)node]) // if the vertex and its neighbor have the same color
                         {
                             // If the node has been colored and its color is the same as the current node, the graph is not bipartite
                             return "The graph is not bipartite";
@@ -717,6 +718,7 @@ string Algorithms::isBipartite(Graph &g) // we don't wan't the changes to afect 
         }
     }
 
+    // If we've reached here, the graph is bipartite and will return the two groups
     string result = "The graph is bipartite: A={";
     for (size_t i = 0; i < groups[0].size(); ++i)
     {
